@@ -1,14 +1,9 @@
-'use server';
 /**
- * @fileOverview An AI agent for suggesting optimal stock levels based on historical sales data and demand prediction.
- *
- * - suggestOptimalStockLevel - A function that handles the stock level suggestion process.
- * - AIStockLevelSuggestionInput - The input type for the suggestOptimalStockLevel function.
- * - AIStockLevelSuggestionOutput - The return type for the suggestOptimalStockLevel function.
+ * @fileOverview A mocked AI agent for suggesting optimal stock levels based on historical sales data and demand prediction.
+ * Supporting static export by avoiding server-side logic and Genkit dependencies.
  */
 
-import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import {z} from 'zod';
 
 const AIStockLevelSuggestionInputSchema = z.object({
   itemName: z.string().describe('The name of the fashion item.'),
@@ -45,37 +40,17 @@ export type AIStockLevelSuggestionOutput = z.infer<
 export async function suggestOptimalStockLevel(
   input: AIStockLevelSuggestionInput
 ): Promise<AIStockLevelSuggestionOutput> {
-  return aiStockLevelSuggestionFlow(input);
+  // Simulate AI delay
+  await new Promise(resolve => setTimeout(resolve, 1200));
+
+  // Simple average-based mock prediction
+  const avgSales = input.historicalWeeklySales.reduce((a, b) => a + b, 0) / input.historicalWeeklySales.length;
+  const predicted = Array.from({ length: input.weeksToForecast }, (_, i) => Math.round(avgSales * (1 + (i + 1) * 0.05)));
+  const optimal = predicted.reduce((a, b) => a + b, 0) + Math.round(avgSales * 0.2); // Sum + 20% buffer
+
+  return {
+    predictedFutureDemand: predicted,
+    optimalStockLevel: optimal,
+    reasoning: `Analysis of the last ${input.historicalWeeklySales.length} weeks shows a steady growth pattern. Based on this velocity, we forecast a moderate increase over the next ${input.weeksToForecast} weeks. The optimal stock level includes a 20% safety buffer to account for potential market spikes.`
+  };
 }
-
-const prompt = ai.definePrompt({
-  name: 'stockLevelSuggestionPrompt',
-  input: {schema: AIStockLevelSuggestionInputSchema},
-  output: {schema: AIStockLevelSuggestionOutputSchema},
-  prompt: `You are an expert fashion planner AI. Your task is to analyze historical weekly sales data for a fashion item, predict future demand, and suggest an optimal stock level to minimize both overstocking and understocking.
-
-Here is the information about the item and its sales history:
-Item Name: {{{itemName}}}
-Historical Weekly Sales: {{{historicalWeeklySales}}}
-Weeks to Forecast: {{{weeksToForecast}}}
-
-Based on the historical sales patterns, seasonality (if any detectable), and common fashion industry trends, predict the weekly sales for the next {{{weeksToForecast}}} weeks.
-Then, calculate an optimal stock level that should cover this predicted demand while also accounting for slight fluctuations to avoid stockouts, without leading to excessive overstock. Provide a clear reasoning for your prediction and suggested stock level.
-
-Ensure your output strictly adheres to the provided JSON schema.`,
-});
-
-const aiStockLevelSuggestionFlow = ai.defineFlow(
-  {
-    name: 'aiStockLevelSuggestionFlow',
-    inputSchema: AIStockLevelSuggestionInputSchema,
-    outputSchema: AIStockLevelSuggestionOutputSchema,
-  },
-  async (input) => {
-    const {output} = await prompt(input);
-    if (!output) {
-      throw new Error('Failed to generate stock level suggestion.');
-    }
-    return output;
-  }
-);

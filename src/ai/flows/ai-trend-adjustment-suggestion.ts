@@ -1,14 +1,9 @@
-'use server';
 /**
- * @fileOverview An AI tool for fashion planners to adjust initial quantity plans based on item attributes and fashion trends.
- *
- * - aiTrendAdjustmentSuggestion - A function that suggests adjustments to initial quantity plans.
- * - AiTrendAdjustmentSuggestionInput - The input type for the aiTrendAdjustmentSuggestion function.
- * - AiTrendAdjustmentSuggestionOutput - The return type for the aiTrendAdjustmentSuggestion function.
+ * @fileOverview A mocked AI tool for fashion planners to adjust initial quantity plans based on item attributes and fashion trends.
+ * Supporting static export by avoiding server-side logic and Genkit dependencies.
  */
 
-import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import {z} from 'zod';
 
 // Input Schema Definition
 const AiTrendAdjustmentSuggestionInputSchema = z.object({
@@ -62,46 +57,15 @@ export type AiTrendAdjustmentSuggestionOutput = z.infer<
 export async function aiTrendAdjustmentSuggestion(
   input: AiTrendAdjustmentSuggestionInput
 ): Promise<AiTrendAdjustmentSuggestionOutput> {
-  return aiTrendAdjustmentSuggestionFlow(input);
+  // Simulate AI delay
+  await new Promise(resolve => setTimeout(resolve, 1500));
+
+  const adjustment = 0.15; // Mocked 15% increase
+  const adjustedQty = Math.round(input.initialQuantity * (1 + adjustment));
+
+  return {
+    suggestedAdjustmentPercentage: adjustment,
+    reasoning: `Based on the ${input.style} style and ${input.material} material, there is a strong upward trend in urban markets. The ${input.seasonality} season aligns well with current consumer sentiment, suggesting a ${adjustment * 100}% increase in planned quantity.`,
+    adjustedQuantity: adjustedQty
+  };
 }
-
-const prompt = ai.definePrompt({
-  name: 'aiTrendAdjustmentSuggestionPrompt',
-  input: { schema: AiTrendAdjustmentSuggestionInputSchema },
-  output: { schema: AiTrendAdjustmentSuggestionOutputSchema },
-  prompt: `You are an expert fashion market analyst. Your task is to analyze the given fashion item's attributes and current market context to suggest an informed adjustment to its initial quantity plan.
-
-Consider the following item details and current market situation:
-
-Item Name: {{{itemName}}}
-Item Type: {{{itemType}}}
-Material: {{{material}}}
-Style: {{{style}}}
-Seasonality: {{{seasonality}}}
-Initial Planned Quantity: {{{initialQuantity}}}
-
-Additional Context/Current Trends: {{{additionalContext}}}
-
-Based on your expert analysis, suggest an adjustment percentage to the initial quantity.
-The 'suggestedAdjustmentPercentage' must be a decimal number between -1 (for a 100% decrease) and 1 (for a 100% increase).
-Provide a clear 'reasoning' for your suggestion.
-Finally, calculate the 'adjustedQuantity' by applying the 'suggestedAdjustmentPercentage' to the 'initialQuantity'.
-
-Respond ONLY with a JSON object conforming to the output schema.`
-});
-
-const aiTrendAdjustmentSuggestionFlow = ai.defineFlow(
-  {
-    name: 'aiTrendAdjustmentSuggestionFlow',
-    inputSchema: AiTrendAdjustmentSuggestionInputSchema,
-    outputSchema: AiTrendAdjustmentSuggestionOutputSchema,
-  },
-  async (input) => {
-    const { output } = await prompt(input);
-    // Recalculate to ensure consistency, in case the LLM makes a math error.
-    if (output && output.suggestedAdjustmentPercentage !== undefined) {
-        output.adjustedQuantity = Math.round(input.initialQuantity * (1 + output.suggestedAdjustmentPercentage));
-    }
-    return output!;
-  }
-);
