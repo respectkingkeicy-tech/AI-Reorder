@@ -1,29 +1,27 @@
-
 "use client"
 
 import { SidebarNav } from "@/components/layout/nav"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { TrendingUp, Package, DollarSign, AlertCircle } from "lucide-react"
+import { TrendingUp, Activity, Smartphone, Radio, CloudRain } from "lucide-react"
 import { 
-  BarChart, 
-  Bar, 
+  AreaChart, 
+  Area, 
   XAxis, 
   YAxis, 
   CartesianGrid, 
   Tooltip, 
-  ResponsiveContainer,
-  Cell
+  ResponsiveContainer
 } from "recharts"
 
-const data = [
-  { name: 'Silk Shirt', planned: 400, actual: 320, profit: 12000 },
-  { name: 'Floral Dress', planned: 300, actual: 280, profit: 15000 },
-  { name: 'Hoodie', planned: 600, actual: 580, profit: 18000 },
-  { name: 'Denim Jeans', planned: 450, actual: 420, profit: 13000 },
+const bayesianData = [
+  { day: 'Day 1', initial: 100, actual: 110, bayesian: 110 },
+  { day: 'Day 2', initial: 120, actual: 140, bayesian: 135 },
+  { day: 'Day 3', initial: 130, actual: 180, bayesian: 175 },
+  { day: 'Day 4', initial: 140, actual: null, bayesian: 210 },
+  { day: 'Day 5', initial: 150, actual: null, bayesian: 245 },
+  { day: 'Day 6', initial: 160, actual: null, bayesian: 290 },
 ]
-
-const COLORS = ['#2E4A75', '#39B86B', '#1E293B', '#10B981'];
 
 export default function Dashboard() {
   return (
@@ -34,20 +32,20 @@ export default function Dashboard() {
         <header className="mb-8 relative">
           <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg blur opacity-20"></div>
           <h1 className="relative text-5xl font-headline mb-2 font-bold tracking-tight apple-gradient-text drop-shadow-sm">AI REORDER AGENT</h1>
-          <p className="text-muted-foreground/80 font-medium tracking-wide">Monitor your current fashion quantity designs and profit projections.</p>
+          <p className="text-muted-foreground/80 font-medium tracking-wide">Multi-stream demand intelligence and real-time inventory optimization.</p>
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <Card className="glass-panel border-white/10 shadow-xl overflow-hidden relative">
             <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent pointer-events-none"></div>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Total Planned Qty</CardTitle>
-              <Package className="w-4 h-4 text-primary" />
+              <CardTitle className="text-sm font-medium text-muted-foreground">NLP Social Sentiment</CardTitle>
+              <Smartphone className="w-4 h-4 text-primary" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">1,750</div>
+              <div className="text-2xl font-bold">+84%</div>
               <p className="text-xs text-accent mt-1 flex items-center gap-1">
-                <TrendingUp className="w-3 h-3" /> +12% from last season
+                <TrendingUp className="w-3 h-3" /> TikTok & Insta (24h)
               </p>
             </CardContent>
           </Card>
@@ -55,13 +53,13 @@ export default function Dashboard() {
           <Card className="glass-panel border-white/10 shadow-xl overflow-hidden relative">
             <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent pointer-events-none"></div>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Projected Profit</CardTitle>
-              <DollarSign className="w-4 h-4 text-accent" />
+              <CardTitle className="text-sm font-medium text-muted-foreground">Global POS Sync</CardTitle>
+              <Activity className="w-4 h-4 text-accent" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">$58,000</div>
+              <div className="text-2xl font-bold">1.2B</div>
               <p className="text-xs text-accent mt-1 flex items-center gap-1">
-                <TrendingUp className="w-3 h-3" /> +5.2% yield increase
+                Data points processed / hr
               </p>
             </CardContent>
           </Card>
@@ -69,24 +67,24 @@ export default function Dashboard() {
           <Card className="glass-panel border-white/10 shadow-xl overflow-hidden relative">
             <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-transparent pointer-events-none"></div>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Inventory Risk</CardTitle>
-              <AlertCircle className="w-4 h-4 text-destructive" />
+              <CardTitle className="text-sm font-medium text-muted-foreground">RFID Fit-to-Buy Rate</CardTitle>
+              <Radio className="w-4 h-4 text-destructive" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">Low</div>
-              <p className="text-xs text-muted-foreground mt-1">2 items understocked</p>
+              <div className="text-2xl font-bold">42.8%</div>
+              <p className="text-xs text-muted-foreground mt-1">High fit, low buy on 3 SKUs</p>
             </CardContent>
           </Card>
 
           <Card className="glass-panel border-white/10 shadow-xl overflow-hidden relative">
             <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-transparent pointer-events-none"></div>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">AI Precision Rate</CardTitle>
-              <TrendingUp className="w-4 h-4 text-primary" />
+              <CardTitle className="text-sm font-medium text-muted-foreground">Weather Demand Impact</CardTitle>
+              <CloudRain className="w-4 h-4 text-primary" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">94.2%</div>
-              <p className="text-xs text-muted-foreground mt-1">Based on previous 12 weeks</p>
+              <div className="text-2xl font-bold">-15%</div>
+              <p className="text-xs text-muted-foreground mt-1">Early rain in EU region</p>
             </CardContent>
           </Card>
         </div>
@@ -95,32 +93,32 @@ export default function Dashboard() {
           <Card className="col-span-1 glass-panel border-white/10 shadow-xl overflow-hidden relative">
             <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-transparent pointer-events-none"></div>
             <CardHeader>
-              <CardTitle className="apple-gradient-text">Planned vs Actual Sales</CardTitle>
-              <CardDescription>Visualizing historical accuracy for active catalog items.</CardDescription>
+              <CardTitle className="apple-gradient-text">Real-time Bayesian Inference</CardTitle>
+              <CardDescription>Adjusting initial baseline predictions using real-time POS & RFID signals.</CardDescription>
             </CardHeader>
             <CardContent className="h-[300px]">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={data}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#333" />
-                  <XAxis dataKey="name" stroke="#666" fontSize={12} tickLine={false} axisLine={false} />
-                  <YAxis stroke="#666" fontSize={12} tickLine={false} axisLine={false} />
-                  <Tooltip 
-                    contentStyle={{ backgroundColor: 'rgba(20, 20, 30, 0.8)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: '#fff' }}
-                    itemStyle={{ color: '#60A5FA' }}
-                  />
-                  <Bar dataKey="planned" fill="url(#colorPlanned)" radius={[6, 6, 0, 0]} barSize={32} />
-                  <Bar dataKey="actual" fill="url(#colorActual)" radius={[6, 6, 0, 0]} barSize={32} />
+                <AreaChart data={bayesianData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                   <defs>
-                    <linearGradient id="colorPlanned" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#B87CFF" stopOpacity={0.8}/>
-                      <stop offset="95%" stopColor="#B87CFF" stopOpacity={0.2}/>
+                    <linearGradient id="colorBayesian" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#B87CFF" stopOpacity={0.5}/>
+                      <stop offset="95%" stopColor="#B87CFF" stopOpacity={0}/>
                     </linearGradient>
-                    <linearGradient id="colorActual" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#60A5FA" stopOpacity={0.8}/>
-                      <stop offset="95%" stopColor="#60A5FA" stopOpacity={0.2}/>
+                    <linearGradient id="colorInitial" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#60A5FA" stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor="#60A5FA" stopOpacity={0}/>
                     </linearGradient>
                   </defs>
-                </BarChart>
+                  <XAxis dataKey="day" stroke="#666" fontSize={12} tickLine={false} axisLine={false} />
+                  <YAxis stroke="#666" fontSize={12} tickLine={false} axisLine={false} />
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#333" />
+                  <Tooltip 
+                    contentStyle={{ backgroundColor: 'rgba(20, 20, 30, 0.8)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: '#fff' }}
+                  />
+                  <Area type="monotone" dataKey="initial" stroke="#60A5FA" strokeDasharray="5 5" fillOpacity={1} fill="url(#colorInitial)" name="Initial Cluster Baseline" />
+                  <Area type="monotone" dataKey="bayesian" stroke="#B87CFF" strokeWidth={3} fillOpacity={1} fill="url(#colorBayesian)" name="Bayesian Adjusted Forecast" />
+                  <Area type="monotone" dataKey="actual" stroke="#FF8FA3" strokeWidth={3} fill="none" dot={{r: 4}} name="Actual POS Sales" />
+                </AreaChart>
               </ResponsiveContainer>
             </CardContent>
           </Card>
@@ -128,26 +126,30 @@ export default function Dashboard() {
           <Card className="col-span-1 glass-panel border-white/10 shadow-xl overflow-hidden relative">
             <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent pointer-events-none"></div>
             <CardHeader>
-              <CardTitle className="apple-gradient-text">Recent Activity</CardTitle>
-              <CardDescription>Latest adjustments and AI suggestions.</CardDescription>
+              <CardTitle className="apple-gradient-text">Agile Action Streams</CardTitle>
+              <CardDescription>Live decisions executed by optimization logic.</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 {[
-                  { item: 'Minimalist Silk Shirt', action: 'AI suggested +15% adjustment', time: '2h ago', status: 'pending' },
-                  { item: 'Floral Dress', action: 'Manual override to 300 units', time: '5h ago', status: 'applied' },
-                  { item: 'Athleisure Hoodie', action: 'New stock prediction generated', time: 'Yesterday', status: 'new' },
+                  { item: 'Minimalist Silk Shirt', action: 'Scale-up near-shoring production by 15%', trigger: 'Bayesian POS spike + NLP sentiment', time: '10m ago', status: 'executing' },
+                  { item: 'Floral Maxi Dress', action: 'Size Breakage Policy Triggered (Size M OOS)', trigger: 'Withdraw remaining sizes to preserve shelf value', time: '1h ago', status: 'applied' },
+                  { item: 'Tech Hoodie', action: 'Dynamic Pricing: -5% discount applied', trigger: 'RFID dwell time high, POS conversion low', time: '3h ago', status: 'applied' },
                 ].map((log, i) => (
-                  <div key={i} className="flex items-center justify-between p-4 rounded-xl border border-white/5 bg-white/5 backdrop-blur-md hover:bg-white/10 transition-all duration-300">
-                    <div>
+                  <div key={i} className="flex flex-col gap-2 p-4 rounded-xl border border-white/5 bg-white/5 backdrop-blur-md hover:bg-white/10 transition-all duration-300">
+                    <div className="flex justify-between items-start">
                       <div className="font-medium text-sm text-white/90">{log.item}</div>
-                      <div className="text-xs text-muted-foreground mt-0.5">{log.action}</div>
-                    </div>
-                    <div className="text-right">
-                      <Badge variant={log.status === 'applied' ? 'default' : 'outline'} className={log.status === 'applied' ? 'bg-gradient-to-r from-purple-500 to-blue-500 text-white border-0' : 'border-white/10 text-white/70'}>
+                      <Badge variant={log.status === 'executing' ? 'default' : 'outline'} className={log.status === 'executing' ? 'bg-gradient-to-r from-purple-500 to-blue-500 text-white border-0 animate-pulse' : 'border-white/10 text-white/70'}>
                         {log.status}
                       </Badge>
-                      <div className="text-[10px] text-muted-foreground mt-1.5">{log.time}</div>
+                    </div>
+                    <div className="text-sm text-primary">{log.action}</div>
+                    <div className="flex justify-between items-end">
+                      <div className="text-[11px] text-muted-foreground flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-accent inline-block"></span>
+                        {log.trigger}
+                      </div>
+                      <div className="text-[10px] text-muted-foreground">{log.time}</div>
                     </div>
                   </div>
                 ))}

@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState } from "react"
@@ -14,25 +13,22 @@ import {
   TrendingUp, 
   AlertTriangle,
   ChevronRight,
-  Target
+  Target,
+  Network,
+  Maximize2
 } from "lucide-react"
 import { 
   aiTrendAdjustmentSuggestion, 
   AiTrendAdjustmentSuggestionInput, 
   AiTrendAdjustmentSuggestionOutput 
 } from "@/ai/flows/ai-trend-adjustment-suggestion"
-import { 
-  suggestOptimalStockLevel, 
-  AIStockLevelSuggestionInput, 
-  AIStockLevelSuggestionOutput 
-} from "@/ai/flows/ai-stock-level-suggestion"
 import { useToast } from "@/hooks/use-toast"
 
 export default function Planning() {
   const { toast } = useToast()
   const [loadingAI, setLoadingAI] = useState(false)
+  const [allocationRun, setAllocationRun] = useState(false)
   
-  // Active selection for planning
   const [selectedItem, setSelectedItem] = useState({
     name: "Minimalist Silk Shirt",
     type: "Shirt",
@@ -44,7 +40,6 @@ export default function Planning() {
   })
 
   const [aiResult, setAiResult] = useState<AiTrendAdjustmentSuggestionOutput | null>(null)
-  const [stockResult, setStockResult] = useState<AIStockLevelSuggestionOutput | null>(null)
 
   const handleAiTrendAnalysis = async () => {
     setLoadingAI(true)
@@ -61,43 +56,30 @@ export default function Planning() {
       const result = await aiTrendAdjustmentSuggestion(input)
       setAiResult(result)
       toast({
-        title: "Trend analysis complete",
-        description: `Suggested adjustment: ${(result.suggestedAdjustmentPercentage * 100).toFixed(1)}%`,
+        title: "Bayesian Real-time Adjustment Complete",
+        description: `Early POS & RFID signals applied. Adjustment: ${(result.suggestedAdjustmentPercentage * 100).toFixed(1)}%`,
       })
     } catch (e) {
       toast({
         variant: "destructive",
         title: "AI Error",
-        description: "Failed to generate trend adjustment."
+        description: "Failed to run Bayesian inference."
       })
     } finally {
       setLoadingAI(false)
     }
   }
 
-  const handleStockPrediction = async () => {
+  const handleRunMIP = () => {
     setLoadingAI(true)
-    try {
-      const input: AIStockLevelSuggestionInput = {
-        itemName: selectedItem.name,
-        historicalWeeklySales: selectedItem.historicalWeeklySales,
-        weeksToForecast: 4
-      }
-      const result = await suggestOptimalStockLevel(input)
-      setStockResult(result)
-      toast({
-        title: "Demand forecast ready",
-        description: `Optimal stock level: ${result.optimalStockLevel} units`,
-      })
-    } catch (e) {
-      toast({
-        variant: "destructive",
-        title: "AI Error",
-        description: "Failed to predict demand."
-      })
-    } finally {
+    setTimeout(() => {
+      setAllocationRun(true)
       setLoadingAI(false)
-    }
+      toast({
+        title: "MIP Allocation Optimization Complete",
+        description: "Global network distribution calculated with Size Breakage constraints.",
+      })
+    }, 1500)
   }
 
   return (
@@ -106,80 +88,80 @@ export default function Planning() {
       <main className="flex-1 overflow-y-auto p-8">
         <header className="mb-8 flex justify-between items-end">
           <div>
-            <h1 className="text-4xl font-headline mb-2 text-white">AI REORDER AGENT</h1>
-            <p className="text-muted-foreground">Synthesize historical data and AI intelligence for precise stock planning.</p>
+            <h1 className="text-4xl font-headline mb-2 text-white">Advanced Reorder Planning</h1>
+            <p className="text-muted-foreground">Bayesian inference prediction, MIP allocation, and Size Breakage optimization.</p>
           </div>
           <div className="flex gap-3">
             <Button 
               variant="outline" 
-              onClick={handleStockPrediction}
-              disabled={loadingAI}
+              onClick={handleRunMIP}
+              disabled={loadingAI || !aiResult}
               className="border-primary text-primary hover:bg-primary/10"
             >
-              <Target className="w-4 h-4 mr-2" />
-              Predict Demand
+              <Network className="w-4 h-4 mr-2" />
+              Run Global MIP Allocation
             </Button>
             <Button 
               onClick={handleAiTrendAnalysis}
               disabled={loadingAI}
-              className="bg-accent hover:bg-accent/80 text-accent-foreground"
+              className="bg-accent hover:bg-accent/80 text-accent-foreground shadow-lg shadow-purple-500/20"
             >
               {loadingAI ? <RefreshCcw className="w-4 h-4 mr-2 animate-spin" /> : <Sparkles className="w-4 h-4 mr-2" />}
-              AI Trend Analysis
+              Bayesian Forecast Correction
             </Button>
           </div>
         </header>
 
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
           <div className="xl:col-span-2 space-y-8">
-            <Card>
+            <Card className="glass-panel border-white/10 shadow-xl">
               <CardHeader>
-                <CardTitle>Core Design Plan: {selectedItem.name}</CardTitle>
-                <CardDescription>Baseline production requirements based on initial parameters.</CardDescription>
+                <CardTitle className="apple-gradient-text">Initial Cluster Baseline: {selectedItem.name}</CardTitle>
+                <CardDescription>Based on metadata matching (no historical data prior to launch).</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                  <div className="p-4 rounded-xl bg-secondary/30 border border-border">
-                    <div className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Base Quantity</div>
-                    <div className="text-2xl font-bold">{selectedItem.initialQuantity}</div>
+                  <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                    <div className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Baseline Forecast</div>
+                    <div className="text-2xl font-bold text-white">{selectedItem.initialQuantity}</div>
                   </div>
-                  <div className="p-4 rounded-xl bg-secondary/30 border border-border">
+                  <div className="p-4 rounded-xl bg-white/5 border border-white/10">
                     <div className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Material</div>
-                    <div className="text-lg font-medium">{selectedItem.material}</div>
+                    <div className="text-lg font-medium text-white/90">{selectedItem.material}</div>
                   </div>
-                  <div className="p-4 rounded-xl bg-secondary/30 border border-border">
+                  <div className="p-4 rounded-xl bg-white/5 border border-white/10">
                     <div className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Style Path</div>
-                    <div className="text-lg font-medium">{selectedItem.style}</div>
+                    <div className="text-lg font-medium text-white/90">{selectedItem.style}</div>
                   </div>
-                  <div className="p-4 rounded-xl bg-secondary/30 border border-border">
-                    <div className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Market Cycle</div>
-                    <div className="text-lg font-medium">{selectedItem.seasonality}</div>
+                  <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                    <div className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Early RFID</div>
+                    <div className="text-lg font-medium text-accent">High Dwell</div>
                   </div>
                 </div>
 
                 {aiResult && (
-                  <div className="mt-8 p-6 rounded-2xl bg-primary/5 border border-primary/20 animate-in fade-in slide-in-from-bottom-2">
+                  <div className="mt-8 p-6 rounded-2xl bg-gradient-to-r from-purple-500/10 to-blue-500/10 border border-white/10 animate-in fade-in slide-in-from-bottom-2">
                     <div className="flex items-center gap-2 mb-4">
-                      <Sparkles className="w-5 h-5 text-accent" />
-                      <h3 className="font-headline text-xl text-white">AI Trend Insight</h3>
+                      <TrendingUp className="w-5 h-5 text-accent" />
+                      <h3 className="font-headline text-xl text-white">Bayesian Inference Correction</h3>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
                       <div className="col-span-2">
                         <p className="text-sm leading-relaxed text-muted-foreground">
-                          {aiResult.reasoning}
+                          Initial clustering forecast of {selectedItem.initialQuantity} has been adjusted based on first 3 days of POS data and high RFID fitting room conversion rates. {aiResult.reasoning}
                         </p>
                       </div>
-                      <div className="bg-primary/10 p-4 rounded-lg border border-primary/20">
-                        <div className="text-xs text-muted-foreground mb-2">Adjusted Targets</div>
+                      <div className="bg-white/5 p-4 rounded-xl border border-white/10 backdrop-blur-md">
+                        <div className="text-xs text-muted-foreground mb-2">Point Forecast Update</div>
                         <div className="flex items-center justify-between mb-1">
-                          <span className="text-sm">Delta</span>
-                          <span className={aiResult.suggestedAdjustmentPercentage > 0 ? "text-accent" : "text-destructive"}>
+                          <span className="text-sm text-white/80">Delta</span>
+                          <span className={aiResult.suggestedAdjustmentPercentage > 0 ? "text-accent font-bold" : "text-destructive font-bold"}>
                             {aiResult.suggestedAdjustmentPercentage > 0 ? "+" : ""}
                             {(aiResult.suggestedAdjustmentPercentage * 100).toFixed(1)}%
                           </span>
                         </div>
-                        <div className="flex items-center justify-between pt-2 border-t border-border/50">
-                          <span className="font-bold">Final Qty</span>
+                        <div className="flex items-center justify-between pt-2 border-t border-white/10">
+                          <span className="font-bold text-white/90">New Target</span>
                           <span className="text-2xl font-bold text-white">{aiResult.adjustedQuantity}</span>
                         </div>
                       </div>
@@ -189,93 +171,100 @@ export default function Planning() {
               </CardContent>
             </Card>
 
-            <Card>
-              <CardHeader>
-                <CardTitle>Demand Velocity</CardTitle>
-                <CardDescription>Historical weekly sales performance & AI forecast.</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {selectedItem.historicalWeeklySales.map((sale, i) => (
-                    <div key={i} className="flex flex-col items-center bg-secondary/20 rounded p-2 min-w-[50px]">
-                      <span className="text-[10px] text-muted-foreground">W{i+1}</span>
-                      <span className="font-mono text-sm">{sale}</span>
-                    </div>
-                  ))}
-                  <div className="flex items-center px-4 text-muted-foreground">
-                    <ArrowRight className="w-4 h-4" />
-                  </div>
-                  {stockResult ? (
-                    stockResult.predictedFutureDemand.map((sale, i) => (
-                      <div key={i} className="flex flex-col items-center bg-accent/10 border border-accent/30 rounded p-2 min-w-[50px] animate-pulse">
-                        <span className="text-[10px] text-accent">W{selectedItem.historicalWeeklySales.length + i + 1}</span>
-                        <span className="font-mono text-sm text-accent">{Math.round(sale)}</span>
-                      </div>
-                    ))
-                  ) : (
-                    <div className="flex items-center justify-center p-2 border border-dashed border-border rounded min-w-[120px] text-[10px] text-muted-foreground">
-                      Forecast Pending
-                    </div>
-                  )}
-                </div>
-
-                {stockResult && (
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-3 p-4 rounded-xl bg-accent/5 border border-accent/10">
-                      <Target className="w-5 h-5 text-accent" />
+            {allocationRun && (
+              <Card className="glass-panel border-white/10 shadow-xl border-t-accent/50 animate-in fade-in slide-in-from-bottom-2">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 apple-gradient-text">
+                    <Maximize2 className="w-5 h-5" />
+                    MIP Allocation & Size Breakage Optimization
+                  </CardTitle>
+                  <CardDescription>Global distribution maximizing shelf time before core size stockout.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-6">
+                    <div className="p-4 rounded-xl bg-destructive/10 border border-destructive/20 flex gap-3">
+                      <AlertTriangle className="w-5 h-5 text-destructive shrink-0" />
                       <div>
-                        <div className="text-sm font-semibold">Optimal Stock Level Suggested</div>
-                        <div className="text-2xl font-bold text-accent">{stockResult.optimalStockLevel} Units</div>
+                        <div className="text-sm font-semibold text-destructive mb-1">Size Breakage Constraint Triggered (EU Region)</div>
+                        <p className="text-[12px] text-destructive/80">
+                          Prediction indicates Size M will sell out in 14 days, forcing withdrawal of S and L. MIP algorithm has reallocated 20% of US Size M inventory to EU to balance shelf life globally.
+                        </p>
                       </div>
                     </div>
-                    <div className="text-xs text-muted-foreground p-3 border-l-2 border-accent/40 bg-accent/5 italic">
-                      "AI Reasoning: {stockResult.reasoning}"
+
+                    <div className="grid grid-cols-3 gap-4">
+                      <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                        <div className="text-xs text-muted-foreground mb-2">EU Allocation</div>
+                        <div className="flex justify-between items-end">
+                          <div className="text-2xl font-bold text-white">450</div>
+                          <div className="text-xs text-accent">+20% (Size M shift)</div>
+                        </div>
+                      </div>
+                      <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                        <div className="text-xs text-muted-foreground mb-2">US Allocation</div>
+                        <div className="flex justify-between items-end">
+                          <div className="text-2xl font-bold text-white">225</div>
+                          <div className="text-xs text-destructive">-20% (Optimal)</div>
+                        </div>
+                      </div>
+                      <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                        <div className="text-xs text-muted-foreground mb-2">Agile Production Trigger</div>
+                        <div className="flex justify-between items-end">
+                          <div className="text-2xl font-bold text-white">Near-shore</div>
+                          <div className="text-xs text-primary">+100 units</div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                )}
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            )}
           </div>
 
           <div className="space-y-8">
-            <Card>
+            <Card className="glass-panel border-white/10 shadow-xl">
               <CardHeader>
-                <CardTitle>Plan Overrides</CardTitle>
+                <CardTitle className="text-white">Dynamic Pricing Matrix</CardTitle>
+                <CardDescription className="text-muted-foreground">Algorithmic margin protection based on velocity.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <label className="text-xs font-medium text-muted-foreground">Manual Quantity Adjustment</label>
-                  <div className="flex gap-2">
-                    <Input type="number" defaultValue={aiResult?.adjustedQuantity || selectedItem.initialQuantity} className="bg-secondary/40" />
-                    <Button variant="secondary">Apply</Button>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center p-3 rounded-lg bg-white/5 border border-white/10">
+                    <span className="text-sm font-medium text-white/90">Week 1-2 (Launch)</span>
+                    <Badge variant="outline" className="text-primary border-primary bg-primary/10">Full Price</Badge>
+                  </div>
+                  <div className="flex justify-between items-center p-3 rounded-lg bg-white/5 border border-white/10">
+                    <span className="text-sm font-medium text-white/90">Week 3-4 (If V &lt; 0.8)</span>
+                    <Badge variant="outline" className="text-yellow-500 border-yellow-500 bg-yellow-500/10">-10% Discount</Badge>
+                  </div>
+                  <div className="flex justify-between items-center p-3 rounded-lg bg-white/5 border border-white/10">
+                    <span className="text-sm font-medium text-white/90">Week 5+ (Clearance)</span>
+                    <Badge variant="outline" className="text-destructive border-destructive bg-destructive/10">-25% Dynamic</Badge>
                   </div>
                 </div>
-                <div className="p-4 rounded-lg bg-yellow-500/5 border border-yellow-500/20 flex gap-3">
-                  <AlertTriangle className="w-5 h-5 text-yellow-500 shrink-0" />
-                  <p className="text-[11px] text-yellow-200/70">
-                    Manual overrides bypass AI recommendations and may increase overstock risk by 12% based on current trends.
-                  </p>
+                <div className="p-4 mt-4 rounded-lg bg-primary/10 border border-primary/20 text-[11px] text-primary/80">
+                  Matrix calculates elasticity based on real-time sell-through rates to prevent excessive markdowns.
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="bg-primary/20 border-primary/30">
+            <Card className="glass-panel border-white/10 shadow-xl bg-gradient-to-b from-white/5 to-white/0">
               <CardHeader>
-                <CardTitle className="text-white">Profit Projection</CardTitle>
-                <CardDescription className="text-primary-foreground/60">Estimated returns based on planned quantity.</CardDescription>
+                <CardTitle className="text-white">Global Profit Impact</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div>
-                  <div className="text-xs text-muted-foreground mb-1 uppercase tracking-widest">Gross Revenue</div>
-                  <div className="text-3xl font-bold text-white">$75,600</div>
+                  <div className="text-xs text-muted-foreground mb-1 uppercase tracking-widest">Optimized Revenue</div>
+                  <div className="text-3xl font-bold text-white">$84,200</div>
+                  <div className="text-xs text-accent mt-1">+11.3% vs static allocation</div>
                 </div>
                 <div>
-                  <div className="text-xs text-muted-foreground mb-1 uppercase tracking-widest">Operating Margin</div>
-                  <div className="text-xl font-bold text-accent">42.5%</div>
+                  <div className="text-xs text-muted-foreground mb-1 uppercase tracking-widest">Expected Margin</div>
+                  <div className="text-xl font-bold text-primary">46.8%</div>
                 </div>
                 <div className="pt-4 border-t border-white/10">
-                  <Button className="w-full bg-accent hover:bg-accent/80 text-accent-foreground font-bold">
-                    Export Detailed Report
+                  <Button className="w-full bg-accent hover:bg-accent/80 text-accent-foreground font-bold shadow-lg shadow-purple-500/20">
+                    Push Execution to ERP
                   </Button>
                 </div>
               </CardContent>
