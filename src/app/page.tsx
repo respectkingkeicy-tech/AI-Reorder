@@ -32,7 +32,7 @@ export default function Dashboard() {
       
       <main className="flex-1 overflow-y-auto p-8">
         <header className="mb-8">
-          <h1 className="text-4xl font-headline mb-2">Executive Overview</h1>
+          <h1 className="text-4xl font-headline mb-2 text-white">하림이 바보</h1>
           <p className="text-muted-foreground">Monitor your current fashion quantity designs and profit projections.</p>
         </header>
 

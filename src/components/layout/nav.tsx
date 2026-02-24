@@ -20,9 +20,9 @@ export function SidebarNav() {
     <nav className="flex flex-col h-full w-64 bg-card border-r border-border p-4 space-y-2">
       <div className="flex items-center gap-2 mb-8 px-2">
         <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-          <span className="text-white font-headline text-xl">V</span>
+          <span className="text-white font-headline text-xl">H</span>
         </div>
-        <span className="font-headline text-2xl tracking-tight text-white">VogueQuant</span>
+        <span className="font-headline text-2xl tracking-tight text-white">하림이 바보</span>
       </div>
       
       <div className="flex-1 space-y-1">
