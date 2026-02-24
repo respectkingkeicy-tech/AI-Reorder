@@ -1,0 +1,23 @@
+
+{
+  "placeholderImages": [
+    {
+      "id": "item-1",
+      "description": "Minimalist Silk Shirt",
+      "imageUrl": "https://picsum.photos/seed/fashion1/400/500",
+      "imageHint": "silk shirt fashion"
+    },
+    {
+      "id": "item-2",
+      "description": "Bohemian Floral Dress",
+      "imageUrl": "https://picsum.photos/seed/fashion2/400/500",
+      "imageHint": "floral dress"
+    },
+    {
+      "id": "item-3",
+      "description": "Athleisure Performance Hoodie",
+      "imageUrl": "https://picsum.photos/seed/fashion3/400/500",
+      "imageHint": "hoodie fashion"
+    }
+  ]
+}
