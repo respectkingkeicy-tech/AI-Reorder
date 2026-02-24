@@ -31,13 +31,15 @@ export default function Dashboard() {
       <SidebarNav />
       
       <main className="flex-1 overflow-y-auto p-8">
-        <header className="mb-8">
-          <h1 className="text-4xl font-headline mb-2 text-white">하림이 바보</h1>
-          <p className="text-muted-foreground">Monitor your current fashion quantity designs and profit projections.</p>
+        <header className="mb-8 relative">
+          <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg blur opacity-20"></div>
+          <h1 className="relative text-5xl font-headline mb-2 font-bold tracking-tight apple-gradient-text drop-shadow-sm">하림이 바보</h1>
+          <p className="text-muted-foreground/80 font-medium tracking-wide">Monitor your current fashion quantity designs and profit projections.</p>
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card>
+          <Card className="glass-panel border-white/10 shadow-xl overflow-hidden relative">
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent pointer-events-none"></div>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">Total Planned Qty</CardTitle>
               <Package className="w-4 h-4 text-primary" />
@@ -50,7 +52,8 @@ export default function Dashboard() {
             </CardContent>
           </Card>
           
-          <Card>
+          <Card className="glass-panel border-white/10 shadow-xl overflow-hidden relative">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent pointer-events-none"></div>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">Projected Profit</CardTitle>
               <DollarSign className="w-4 h-4 text-accent" />
@@ -63,7 +66,8 @@ export default function Dashboard() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="glass-panel border-white/10 shadow-xl overflow-hidden relative">
+            <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-transparent pointer-events-none"></div>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">Inventory Risk</CardTitle>
               <AlertCircle className="w-4 h-4 text-destructive" />
@@ -74,7 +78,8 @@ export default function Dashboard() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="glass-panel border-white/10 shadow-xl overflow-hidden relative">
+            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-transparent pointer-events-none"></div>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">AI Precision Rate</CardTitle>
               <TrendingUp className="w-4 h-4 text-primary" />
@@ -87,9 +92,10 @@ export default function Dashboard() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <Card className="col-span-1">
+          <Card className="col-span-1 glass-panel border-white/10 shadow-xl overflow-hidden relative">
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-transparent pointer-events-none"></div>
             <CardHeader>
-              <CardTitle>Planned vs Actual Sales</CardTitle>
+              <CardTitle className="apple-gradient-text">Planned vs Actual Sales</CardTitle>
               <CardDescription>Visualizing historical accuracy for active catalog items.</CardDescription>
             </CardHeader>
             <CardContent className="h-[300px]">
@@ -99,19 +105,30 @@ export default function Dashboard() {
                   <XAxis dataKey="name" stroke="#666" fontSize={12} tickLine={false} axisLine={false} />
                   <YAxis stroke="#666" fontSize={12} tickLine={false} axisLine={false} />
                   <Tooltip 
-                    contentStyle={{ backgroundColor: '#1E1E2D', border: 'none', borderRadius: '8px', color: '#fff' }}
-                    itemStyle={{ color: '#39B86B' }}
+                    contentStyle={{ backgroundColor: 'rgba(20, 20, 30, 0.8)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: '#fff' }}
+                    itemStyle={{ color: '#60A5FA' }}
                   />
-                  <Bar dataKey="planned" fill="#2E4A75" radius={[4, 4, 0, 0]} barSize={40} />
-                  <Bar dataKey="actual" fill="#39B86B" radius={[4, 4, 0, 0]} barSize={40} />
+                  <Bar dataKey="planned" fill="url(#colorPlanned)" radius={[6, 6, 0, 0]} barSize={32} />
+                  <Bar dataKey="actual" fill="url(#colorActual)" radius={[6, 6, 0, 0]} barSize={32} />
+                  <defs>
+                    <linearGradient id="colorPlanned" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#B87CFF" stopOpacity={0.8}/>
+                      <stop offset="95%" stopColor="#B87CFF" stopOpacity={0.2}/>
+                    </linearGradient>
+                    <linearGradient id="colorActual" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#60A5FA" stopOpacity={0.8}/>
+                      <stop offset="95%" stopColor="#60A5FA" stopOpacity={0.2}/>
+                    </linearGradient>
+                  </defs>
                 </BarChart>
               </ResponsiveContainer>
             </CardContent>
           </Card>
 
-          <Card className="col-span-1">
+          <Card className="col-span-1 glass-panel border-white/10 shadow-xl overflow-hidden relative">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent pointer-events-none"></div>
             <CardHeader>
-              <CardTitle>Recent Activity</CardTitle>
+              <CardTitle className="apple-gradient-text">Recent Activity</CardTitle>
               <CardDescription>Latest adjustments and AI suggestions.</CardDescription>
             </CardHeader>
             <CardContent>
@@ -121,16 +138,16 @@ export default function Dashboard() {
                   { item: 'Floral Dress', action: 'Manual override to 300 units', time: '5h ago', status: 'applied' },
                   { item: 'Athleisure Hoodie', action: 'New stock prediction generated', time: 'Yesterday', status: 'new' },
                 ].map((log, i) => (
-                  <div key={i} className="flex items-center justify-between p-3 rounded-lg border border-border bg-secondary/30">
+                  <div key={i} className="flex items-center justify-between p-4 rounded-xl border border-white/5 bg-white/5 backdrop-blur-md hover:bg-white/10 transition-all duration-300">
                     <div>
-                      <div className="font-medium text-sm">{log.item}</div>
-                      <div className="text-xs text-muted-foreground">{log.action}</div>
+                      <div className="font-medium text-sm text-white/90">{log.item}</div>
+                      <div className="text-xs text-muted-foreground mt-0.5">{log.action}</div>
                     </div>
                     <div className="text-right">
-                      <Badge variant={log.status === 'applied' ? 'default' : 'outline'} className={log.status === 'applied' ? 'bg-accent text-accent-foreground' : ''}>
+                      <Badge variant={log.status === 'applied' ? 'default' : 'outline'} className={log.status === 'applied' ? 'bg-gradient-to-r from-purple-500 to-blue-500 text-white border-0' : 'border-white/10 text-white/70'}>
                         {log.status}
                       </Badge>
-                      <div className="text-[10px] text-muted-foreground mt-1">{log.time}</div>
+                      <div className="text-[10px] text-muted-foreground mt-1.5">{log.time}</div>
                     </div>
                   </div>
                 ))}

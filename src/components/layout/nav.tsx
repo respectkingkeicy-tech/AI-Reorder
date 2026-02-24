@@ -17,12 +17,12 @@ export function SidebarNav() {
   const pathname = usePathname()
 
   return (
-    <nav className="flex flex-col h-full w-64 bg-card border-r border-border p-4 space-y-2">
-      <div className="flex items-center gap-2 mb-8 px-2">
-        <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+    <nav className="flex flex-col h-full w-64 glass-panel border-r border-white/10 p-4 space-y-2 relative z-10">
+      <div className="flex items-center gap-2 mb-8 px-2 mt-4">
+        <div className="w-8 h-8 rounded-xl apple-gradient-bg flex items-center justify-center shadow-lg shadow-purple-500/20">
           <span className="text-white font-headline text-xl">H</span>
         </div>
-        <span className="font-headline text-2xl tracking-tight text-white">하림이 바보</span>
+        <span className="font-headline text-2xl tracking-tight text-white font-semibold">하림이 바보</span>
       </div>
       
       <div className="flex-1 space-y-1">
@@ -34,23 +34,23 @@ export function SidebarNav() {
               key={item.href}
               href={item.href}
               className={cn(
-                "flex items-center gap-3 px-3 py-2 rounded-md transition-colors text-sm font-medium",
+                "flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-300 text-sm font-medium",
                 isActive 
-                  ? "bg-primary text-primary-foreground" 
-                  : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+                  ? "bg-white/10 text-white shadow-sm border border-white/5 backdrop-blur-md" 
+                  : "text-muted-foreground hover:bg-white/5 hover:text-foreground"
               )}
             >
-              <Icon className="w-4 h-4" />
+              <Icon className={cn("w-4 h-4", isActive ? "text-primary" : "")} />
               {item.label}
             </Link>
           )
         })}
       </div>
 
-      <div className="pt-4 border-t border-border">
+      <div className="pt-4 border-t border-white/10">
         <Link
           href="/settings"
-          className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors"
+          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-muted-foreground hover:bg-white/5 hover:text-foreground transition-all duration-300"
         >
           <Settings className="w-4 h-4" />
           Settings
