@@ -33,7 +33,7 @@ export default function Dashboard() {
       <main className="flex-1 overflow-y-auto p-8">
         <header className="mb-8 relative">
           <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg blur opacity-20"></div>
-          <h1 className="relative text-5xl font-headline mb-2 font-bold tracking-tight apple-gradient-text drop-shadow-sm">하림이 바보</h1>
+          <h1 className="relative text-5xl font-headline mb-2 font-bold tracking-tight apple-gradient-text drop-shadow-sm">AI REORDER AGENT</h1>
           <p className="text-muted-foreground/80 font-medium tracking-wide">Monitor your current fashion quantity designs and profit projections.</p>
         </header>
 

@@ -22,7 +22,7 @@ export function SidebarNav() {
         <div className="w-8 h-8 rounded-xl apple-gradient-bg flex items-center justify-center shadow-lg shadow-purple-500/20">
           <span className="text-white font-headline text-xl">H</span>
         </div>
-        <span className="font-headline text-2xl tracking-tight text-white font-semibold">하림이 바보</span>
+        <span className="font-headline text-2xl tracking-tight text-white font-semibold">AI REORDER AGENT</span>
       </div>
       
       <div className="flex-1 space-y-1">

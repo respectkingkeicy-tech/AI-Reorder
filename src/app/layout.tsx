@@ -3,7 +3,7 @@ import type {Metadata} from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: '하림이 바보 | Precision Fashion Planning',
+  title: 'AI REORDER AGENT | Precision Fashion Planning',
   description: 'AI-Powered Fashion Quantity Design and Stock Level Management',
 };
 

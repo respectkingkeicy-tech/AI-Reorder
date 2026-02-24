@@ -106,7 +106,7 @@ export default function Planning() {
       <main className="flex-1 overflow-y-auto p-8">
         <header className="mb-8 flex justify-between items-end">
           <div>
-            <h1 className="text-4xl font-headline mb-2 text-white">하림이 바보</h1>
+            <h1 className="text-4xl font-headline mb-2 text-white">AI REORDER AGENT</h1>
             <p className="text-muted-foreground">Synthesize historical data and AI intelligence for precise stock planning.</p>
           </div>
           <div className="flex gap-3">
